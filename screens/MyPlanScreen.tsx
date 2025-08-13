@@ -14,8 +14,21 @@ interface MyPlanScreenProps {
   onNavigateBack: () => void;
 }
 
+interface Plan {
+  name: string;
+  price: number;
+  startDate: string;
+  nextBilling: string;
+  benefits: string[];
+}
+
+interface UserData {
+  hasPlan: boolean;
+  currentPlan: Plan | null;
+}
+
 // Simulando dados do usuário
-const userData = {
+const userData: UserData = {
   hasPlan: false, // Mude para true para testar com plano ativo
   currentPlan: null,
   // currentPlan: {
@@ -136,7 +149,7 @@ export const MyPlanScreen: React.FC<MyPlanScreenProps> = ({
           {/* Benefits */}
           <View style={myPlanStyles.benefitsCard}>
             <Text style={myPlanStyles.benefitsCardTitle}>Benefícios do seu plano</Text>
-            {user.currentPlan?.benefits.map((benefit, index) => (
+            {user.currentPlan?.benefits?.map((benefit: string, index: number) => (
               <Text key={index} style={myPlanStyles.benefitItem}>• {benefit}</Text>
             ))}
           </View>

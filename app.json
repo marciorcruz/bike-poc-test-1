@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "bike-itau",
+    "name": "Bike Itaú",
     "slug": "bike-itau",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,20 +10,45 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FF6600"
     },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bikeitau.app",
+      "config": {
+        "googleMapsApiKey": "AIzaSyCHatYl4V0Ygcr-kFvApds93YSRM26kBWw"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#FF6600"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.bikeitau.app",
+      "versionCode": 1,
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCHatYl4V0Ygcr-kFvApds93YSRM26kBWw"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d1a0baca-d0d7-4ce2-8c6c-21b8e924abac"
+      }
+    },
+    "owner": "marciorcruz"
   }
 }
