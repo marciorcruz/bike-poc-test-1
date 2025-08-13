@@ -45,13 +45,13 @@ Sua API Key já está configurada corretamente:
   "android": {
     "config": {
       "googleMaps": {
-        "apiKey": "AIzaSyCHatYl4V0Ygcr-kFvApds93YSRM26kBWw"
+        "apiKey": ""
       }
     }
   },
   "ios": {
     "config": {
-      "googleMapsApiKey": "AIzaSyCHatYl4V0Ygcr-kFvApds93YSRM26kBWw"
+      "googleMapsApiKey": ""
     }
   }
 }

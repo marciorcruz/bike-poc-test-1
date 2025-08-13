@@ -19,7 +19,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.bikeitau.app",
       "config": {
-        "googleMapsApiKey": "AIzaSyCHatYl4V0Ygcr-kFvApds93YSRM26kBWw"
+        "googleMapsApiKey": ""
       }
     },
     "android": {
@@ -37,7 +37,7 @@
       ],
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyCHatYl4V0Ygcr-kFvApds93YSRM26kBWw"
+          "apiKey": ""
         }
       }
     },
