@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,8 +8,10 @@ import {
   Modal,
   TextInput,
   Alert,
+  Platform,
 } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import * as Location from 'expo-location';
 import { mapStyles } from './styles/mapStyles';
 
 interface Bike {
@@ -62,6 +64,19 @@ export const MapScreen: React.FC<MapScreenProps> = ({ onOpenSidebar }) => {
   const [showQRModal, setShowQRModal] = useState(false);
   const [showPinModal, setShowPinModal] = useState(false);
   const [bikeNumber, setBikeNumber] = useState('');
+  const [hasLocation, setHasLocation] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        setHasLocation(status === 'granted');
+      } catch (error) {
+        console.log('Error requesting location permission:', error);
+        setHasLocation(false);
+      }
+    })();
+  }, []);
 
   const openStationDetails = (station: Station) => {
     setSelectedStation(station);
@@ -105,6 +120,35 @@ export const MapScreen: React.FC<MapScreenProps> = ({ onOpenSidebar }) => {
     }
   };
 
+  // Evita montar o mapa até saber a permissão (previne crash)
+  if (hasLocation === null) {
+    return (
+      <SafeAreaView style={mapStyles.container}>
+        <StatusBar barStyle="light-content" backgroundColor="#FF6600" />
+        <View style={mapStyles.safeArea}>
+          {/* Header */}
+          <View style={mapStyles.header}>
+            <TouchableOpacity style={mapStyles.menuButton} onPress={onOpenSidebar}>
+              <Text style={mapStyles.menuIcon}>☰</Text>
+            </TouchableOpacity>
+            <Text style={mapStyles.headerTitle}>Bike Itaú</Text>
+            <View style={mapStyles.placeholder} />
+          </View>
+          <View style={[mapStyles.mapContainer, { justifyContent: 'center', alignItems: 'center' }]}>
+            <Text>Carregando mapa...</Text>
+          </View>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  const region = {
+    latitude: -23.5505,
+    longitude: -46.6333,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  };
+
   return (
     <SafeAreaView style={mapStyles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#FF6600" />
@@ -122,25 +166,20 @@ export const MapScreen: React.FC<MapScreenProps> = ({ onOpenSidebar }) => {
         <View style={mapStyles.mapContainer}>
           <MapView
             style={mapStyles.map}
-            initialRegion={{
-              latitude: -23.5505,
-              longitude: -46.6333,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-            showsUserLocation={true}
-            showsMyLocationButton={true}
+            // Em Android use Google provider; em iOS deixe undefined (a menos que tenha Dev Client configurado)
+            provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
+            initialRegion={region}
+            showsUserLocation={hasLocation}
+            showsMyLocationButton={hasLocation && Platform.OS === 'android'}
             mapType="standard"
-            onMapReady={() => {
-              console.log('Map is ready');
-            }}
+            onMapReady={() => console.log('Map is ready')}
           >
             {mockStations.map((station) => (
               <Marker
                 key={station.id}
                 coordinate={{
-                  latitude: station.latitude,
-                  longitude: station.longitude,
+                  latitude: Number(station.latitude),
+                  longitude: Number(station.longitude),
                 }}
                 title={station.name}
                 description={`${station.bikes.length} bikes disponíveis`}

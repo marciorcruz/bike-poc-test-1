@@ -7,6 +7,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "plugins": ["expo-dev-client"],
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -19,7 +20,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.bikeitau.app",
       "config": {
-        "googleMapsApiKey": ""
+        "googleMapsApiKey": "AIzaSyCHatYl4V0Ygcr-kFvApds93YSRM26kBWw"
       }
     },
     "android": {
@@ -37,7 +38,7 @@
       ],
       "config": {
         "googleMaps": {
-          "apiKey": ""
+          "apiKey": "AIzaSyCHatYl4V0Ygcr-kFvApds93YSRM26kBWw"
         }
       }
     },
